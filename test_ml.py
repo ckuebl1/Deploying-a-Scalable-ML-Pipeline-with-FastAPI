@@ -1,28 +1,35 @@
 import pytest
-# TODO: add necessary import
-
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
-    """
-    # add description for the first test
-    """
-    # Your code here
-    pass
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from ml.data import apply_label
+from ml.model import train_model, compute_model_metrics
 
 
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_apply_labels():
     """
-    # add description for the second test
+    Test that apply_label correctly converts a binary prediction into the expected string.
     """
-    # Your code here
-    pass
+    assert apply_label([1]) == ">50K"
+    assert apply_label([0]) == "<=50K"
 
 
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
+def test_compute_model_metrics():
     """
-    # add description for the third test
+    Test that compute_model_metrics returns expected values when predictions match true labels. 
     """
-    # Your code here
-    pass
+    true_labels = np.array([1, 0, 1, 1, 0])
+    predicted_labels = np.array([1, 0, 1, 1, 0])
+    precision, recall, fbeta = compute_model_metrics(true_labels, predicted_labels)
+    assert precision == 1.0
+    assert recall == 1.0
+    assert fbeta == 1.0
+
+
+def test_train_model():
+    """
+    Test that train_model returns a trained RandomForestClassifier instance.
+    """
+    X_train = np.random.rand(10, 5)
+    y_train = np.random.randint(0, 2, 10)
+    model = train_model(X_train, y_train)
+    assert isinstance(model, RandomForestClassifier)
